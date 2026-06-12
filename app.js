@@ -623,6 +623,7 @@ function registerServiceWorker() {
         navigator.serviceWorker.register('/GRADER-gianlucky/sw.js')
             .then(registration => {
                 console.log('SW registered');
+                console.log('New service worker file downloaded and ready');
             })
             .catch(error => {
                 console.log('SW failed', error);
