@@ -1,0 +1,178 @@
+/* iOS-specific tweaks and custom scrollbar */
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+input {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+/* Custom scrollbar for internal lists */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Safe area insets for iPhone X and later */
+@supports (padding: max(0px)) {
+    .safe-area-bottom {
+        padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    
+    .safe-area-top {
+        padding-top: max(20px, env(safe-area-inset-top));
+    }
+}
+
+/* Prevent bounce scroll on iOS */
+body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Glassmorphism effect */
+.glass {
+    background: rgba(28, 28, 30, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Smooth transitions */
+.transition-all {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Progress bar animation */
+@keyframes progress {
+    from {
+        width: 0%;
+    }
+}
+
+.progress-animated {
+    animation: progress 0.5s ease-out;
+}
+
+/* Modal slide animation */
+@keyframes slideUp {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-slide-up {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Pulse animation for FAB */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+/* Status indicator glow */
+.glow-green {
+    box-shadow: 0 0 20px rgba(48, 209, 88, 0.4);
+}
+
+.glow-yellow {
+    box-shadow: 0 0 20px rgba(255, 214, 10, 0.4);
+}
+
+.glow-red {
+    box-shadow: 0 0 20px rgba(255, 69, 58, 0.4);
+}
+
+/* Text gradient for emphasis */
+.text-gradient {
+    background: linear-gradient(135deg, #0A84FF, #5E5CE6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Card hover effect */
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:active {
+    transform: scale(0.98);
+}
+
+/* Input focus ring */
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(10, 132, 255, 0.5);
+}
+
+/* Button press effect */
+.btn-press:active {
+    transform: scale(0.95);
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Staggered animation for list items */
+.stagger-1 {
+    animation-delay: 0.05s;
+}
+
+.stagger-2 {
+    animation-delay: 0.1s;
+}
+
+.stagger-3 {
+    animation-delay: 0.15s;
+}
+
+.stagger-4 {
+    animation-delay: 0.2s;
+}
+
+.stagger-5 {
+    animation-delay: 0.25s;
+}
