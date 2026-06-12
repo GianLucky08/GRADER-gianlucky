@@ -89,6 +89,7 @@ function goBack() {
     state.currentSubjectId = null;
     elements.subjectDetail.classList.add('hidden');
     elements.dashboard.classList.remove('hidden');
+    renderSubjects();
 }
 
 // Modal Functions
