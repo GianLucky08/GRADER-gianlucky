@@ -43,20 +43,17 @@ input {
 
 /* Prevent bounce scroll on iOS */
 body {
-    overscroll-behavior: none;
-    -webkit-overflow-scrolling: touch;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+    position: static; /* Quitamos fixed */
+    height: auto;
+    background-color: #000000;
+    overscroll-behavior-y: contain; /* Evita rebotes raros */
 }
 
 /* Subjects list with native scroll and FAB padding */
 #subjects-list {
     flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 150px; /* Margen amplio para evitar solapamiento con el FAB */
+    height: auto;
+    padding-bottom: 120px; /* Suficiente espacio para el FAB */
 }
 
 /* Glassmorphism effect */
