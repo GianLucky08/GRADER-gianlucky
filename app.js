@@ -514,11 +514,19 @@ function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/GRADER-gianlucky/sw.js')
             .then(registration => {
-                console.log('Service Worker registered:', registration);
+                console.log('SW registered');
             })
             .catch(error => {
-                console.log('Service Worker registration failed:', error);
+                console.log('SW failed', error);
             });
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                window.location.reload();
+                refreshing = true;
+            }
+        });
     }
 }
 
