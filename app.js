@@ -245,9 +245,15 @@ function renderCalculationPanel() {
                 </div>
             </div>
             
-            <div class="bg-ios-cardLight rounded-2xl p-4 text-center mb-4">
-                <p class="text-ios-textSecondary text-xs mb-1">Puntos Acumulados</p>
-                <p class="font-bold text-3xl">${stats.accumulatedPoints.toFixed(1)} / ${state.gradeScale.max}</p>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div class="bg-ios-cardLight rounded-2xl p-4 text-center">
+                    <p class="text-ios-textSecondary text-xs mb-1">Puntos Acumulados</p>
+                    <p class="font-bold text-2xl">${stats.accumulatedPoints.toFixed(1)} / ${state.gradeScale.max}</p>
+                </div>
+                <div class="bg-ios-cardLight rounded-2xl p-4 text-center">
+                    <p class="text-ios-textSecondary text-xs mb-1">Promedio Actual</p>
+                    <p class="font-bold text-2xl">${stats.currentAverage.toFixed(1)} / ${state.gradeScale.max}</p>
+                </div>
             </div>
             
             <div class="bg-ios-cardLight rounded-2xl p-4 text-center border-2 ${statusColor.replace('bg-', 'border-')}">
@@ -270,6 +276,12 @@ function calculateSubjectStats(subject) {
     subject.evaluations.forEach(evaluation => {
         accumulatedPoints += (evaluation.grade * evaluation.percentage) / 100;
     });
+    
+    // Promedio Actual
+    let currentAverage = 0;
+    if (evaluatedPercentage > 0) {
+        currentAverage = (accumulatedPoints * 100) / evaluatedPercentage;
+    }
     
     // Calculate needed grade to pass
     let neededGrade = 0;
@@ -304,6 +316,7 @@ function calculateSubjectStats(subject) {
         evaluatedPercentage,
         remainingPercentage,
         accumulatedPoints,
+        currentAverage,
         neededGrade,
         status
     };
