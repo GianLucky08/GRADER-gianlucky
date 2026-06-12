@@ -23,7 +23,8 @@ const elements = {
     subjectsList: document.getElementById('subjects-list'),
     evaluationsList: document.getElementById('evaluations-list'),
     calculationPanel: document.getElementById('calculation-panel'),
-    subjectTitle: document.getElementById('subject-title')
+    subjectTitle: document.getElementById('subject-title'),
+    globalStats: document.getElementById('global-stats')
 };
 
 // Initialize App
@@ -70,6 +71,7 @@ function showDashboard() {
     elements.dashboard.classList.remove('hidden');
     elements.subjectDetail.classList.add('hidden');
     renderSubjects();
+    renderGlobalStats();
 }
 
 function showSubjectDetail(subjectId) {
@@ -132,30 +134,117 @@ function renderSubjects() {
     state.subjects.forEach((subject, index) => {
         const stats = calculateSubjectStats(subject);
         const statusColor = getStatusColor(stats.status);
+        const avgTextColor = getAverageColorClass(stats.currentAverage, state.gradeScale.passing);
+        const radius = 24;
+        const circumference = 2 * Math.PI * radius;
+        const percentage = (stats.currentAverage / state.gradeScale.max) * 100;
+        const offset = circumference - (percentage / 100) * circumference;
         
         const card = document.createElement('div');
         card.className = `bg-ios-card backdrop-blur-xl rounded-2xl p-4 border border-ios-separator card-hover fade-in stagger-${(index % 5) + 1}`;
         card.innerHTML = `
-            <div class="flex items-center justify-between mb-3">
-                <h3 class="font-semibold text-lg flex-1 truncate">${subject.name}</h3>
-                <div class="w-3 h-3 rounded-full ${statusColor}"></div>
-            </div>
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-ios-textSecondary text-sm">Puntos</span>
-                <span class="font-bold text-xl">${stats.accumulatedPoints.toFixed(1)} / ${state.gradeScale.max}</span>
-            </div>
-            <div class="w-full bg-ios-cardLight rounded-full h-2 mb-2">
-                <div class="bg-ios-accent h-2 rounded-full progress-animated" style="width: ${stats.evaluatedPercentage}%"></div>
-            </div>
-            <div class="flex items-center justify-between text-xs text-ios-textSecondary">
-                <span>${stats.evaluatedPercentage}% evaluado</span>
-                <span>${stats.remainingPercentage}% restante</span>
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center mb-2">
+                        <h3 class="font-semibold text-lg truncate">${subject.name}</h3>
+                    </div>
+                    <div class="flex items-center text-xs text-ios-textSecondary">
+                        <span>${stats.evaluatedPercentage}% evaluado</span>
+                        <span class="mx-2">•</span>
+                        <span>${stats.remainingPercentage}% restante</span>
+                    </div>
+                </div>
+                <div class="relative w-14 h-14 -rotate-90">
+                    <svg class="w-14 h-14" viewBox="0 0 56 56">
+                        <circle cx="28" cy="28" r="${radius}" fill="none" stroke="rgba(44, 44, 46, 0.8)" stroke-width="4"/>
+                        <circle cx="28" cy="28" r="${radius}" fill="transparent" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}" class="${avgTextColor} transition-all duration-500"/>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center rotate-90">
+                        <span class="font-bold text-sm">${stats.currentAverage.toFixed(1)}</span>
+                    </div>
+                </div>
             </div>
         `;
         
         card.addEventListener('click', () => showSubjectDetail(subject.id));
         elements.subjectsList.appendChild(card);
     });
+    renderGlobalStats();
+}
+
+function renderGlobalStats() {
+    const evaluatedSubjects = state.subjects.filter(subject => {
+        const stats = calculateSubjectStats(subject);
+        return stats.evaluatedPercentage > 0;
+    });
+
+    if (evaluatedSubjects.length === 0) {
+        elements.globalStats.innerHTML = '';
+        return;
+    }
+
+    const averages = evaluatedSubjects.map(subject => {
+        const stats = calculateSubjectStats(subject);
+        return stats.currentAverage;
+    });
+
+    const generalAverage = averages.reduce((sum, avg) => sum + avg, 0) / averages.length;
+
+    const chartWidth = 200;
+    const chartHeight = 80;
+    const padding = 10;
+    const maxGrade = state.gradeScale.max;
+    const minGrade = state.gradeScale.min;
+
+    const points = averages.map((avg, index) => {
+        const x = padding + (index / (averages.length - 1 || 1)) * (chartWidth - 2 * padding);
+        const normalizedY = (avg - minGrade) / (maxGrade - minGrade);
+        const y = chartHeight - padding - normalizedY * (chartHeight - 2 * padding);
+        return `${x},${y}`;
+    }).join(' ');
+
+    const gradientPoints = averages.map((avg, index) => {
+        const x = padding + (index / (averages.length - 1 || 1)) * (chartWidth - 2 * padding);
+        const normalizedY = (avg - minGrade) / (maxGrade - minGrade);
+        const y = chartHeight - padding - normalizedY * (chartHeight - 2 * padding);
+        return `${x},${y}`;
+    });
+
+    const areaPath = `${gradientPoints.join(' ')} ${chartWidth - padding},${chartHeight} ${padding},${chartHeight}`;
+
+    elements.globalStats.innerHTML = `
+        <div class="bg-ios-card backdrop-blur-xl rounded-3xl p-6 border border-ios-separator relative overflow-hidden">
+            <div class="relative z-10 flex items-center justify-between">
+                <div class="flex-1">
+                    <p class="text-ios-textSecondary text-sm mb-1">Promedio General</p>
+                    <p class="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">${generalAverage.toFixed(1)}</p>
+                    <p class="text-ios-textSecondary text-xs mt-1">${evaluatedSubjects.length} materia${evaluatedSubjects.length > 1 ? 's' : ''} evaluada${evaluatedSubjects.length > 1 ? 's' : ''}</p>
+                </div>
+                <div class="w-48 h-20">
+                    <svg viewBox="0 0 ${chartWidth} ${chartHeight}" class="w-full h-full">
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#0A84FF;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#30D158;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#0A84FF;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#30D158;stop-opacity:0.05" />
+                            </linearGradient>
+                        </defs>
+                        <polygon points="${areaPath}" fill="url(#areaGradient)" />
+                        <polyline points="${points}" fill="none" stroke="url(#lineGradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        ${averages.map((avg, index) => {
+                            const x = padding + (index / (averages.length - 1 || 1)) * (chartWidth - 2 * padding);
+                            const normalizedY = (avg - minGrade) / (maxGrade - minGrade);
+                            const y = chartHeight - padding - normalizedY * (chartHeight - 2 * padding);
+                            return `<circle cx="${x}" cy="${y}" r="3" fill="#0A84FF" />`;
+                        }).join('')}
+                    </svg>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 function renderEvaluations() {
@@ -333,6 +422,25 @@ function getStatusColor(status) {
         default:
             return 'bg-ios-textSecondary';
     }
+}
+
+function getStatusTextColor(status) {
+    switch (status) {
+        case 'passed':
+            return 'text-ios-success';
+        case 'can-pass':
+            return 'text-ios-warning';
+        case 'impossible':
+            return 'text-ios-danger';
+        default:
+            return 'text-ios-textSecondary';
+    }
+}
+
+function getAverageColorClass(average, passingGrade) {
+    if (average >= 15) return 'text-ios-success';
+    if (average >= passingGrade) return 'text-ios-accent';
+    return 'text-ios-danger';
 }
 
 function getStatusGlow(status) {
