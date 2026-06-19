@@ -44,10 +44,10 @@
     
     <link rel="stylesheet" href="/GRADER-gianlucky/style.css">
 </head>
-<body class="bg-ios-background text-ios-text overflow-hidden select-none">
-    <div id="app" class="h-screen w-screen flex flex-col bg-ios-background text-ios-text">
+<body class="bg-ios-background text-ios-text overflow-hidden select-none w-screen h-screen">
+    <div id="app" class="h-full w-full flex flex-col bg-ios-background text-ios-text overflow-hidden">
         <!-- Setup Screen -->
-        <div id="setup-screen" class="hidden flex-1 flex flex-col items-center justify-center p-6">
+        <div id="setup-screen" class="hidden h-full w-full flex flex-col items-center justify-center p-6 overflow-y-auto">
             <div class="w-full max-w-sm">
                 <div class="text-center mb-8">
                     <div class="w-20 h-20 bg-ios-accent rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -81,9 +81,9 @@
         </div>
         
         <!-- Dashboard -->
-        <div id="dashboard" class="hidden flex-1 flex flex-col relative overflow-hidden min-h-0">
+        <div id="dashboard" class="hidden h-full w-full flex flex-col relative overflow-hidden">
             <!-- Header -->
-            <div class="px-6 pt-[env(safe-area-inset-top,3rem)] pb-4">
+            <div class="px-6 pt-[env(safe-area-inset-top,3rem)] pb-4 flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <div>
                         <h6 class="text-xs uppercase tracking-widest text-white font-medium mb-2">GIANLUCKY APP (GRADER)</h6>
@@ -97,23 +97,23 @@
             </div>
             
             <!-- Global Stats -->
-            <div id="global-stats" class="px-6 mb-4"></div>
+            <div id="global-stats" class="px-6 mb-4 flex-shrink-0"></div>
             
             <!-- Subjects List -->
-            <div id="subjects-list" class="flex-1 overflow-y-auto px-6 pb-32 space-y-3">
+            <div id="subjects-list" class="flex-1 overflow-y-auto px-6 pb-32 space-y-3 min-h-0">
                 <!-- Subjects will be rendered here -->
             </div>
             
             <!-- FAB -->
-            <button id="add-subject-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150">
+            <button id="add-subject-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150 z-40">
                 <i class="fas fa-plus text-2xl text-white"></i>
             </button>
         </div>
         
         <!-- Subject Detail -->
-        <div id="subject-detail" class="hidden flex-1 flex flex-col relative overflow-hidden min-h-0">
+        <div id="subject-detail" class="hidden h-full w-full flex flex-col relative overflow-hidden">
             <!-- Header -->
-            <div class="px-6 pt-12 pb-4 flex items-center">
+            <div class="px-6 pt-12 pb-4 flex items-center flex-shrink-0">
                 <button id="back-btn" class="w-10 h-10 bg-ios-card rounded-full flex items-center justify-center active:scale-95 transition-transform duration-150 mr-4">
                     <i class="fas fa-chevron-left text-white"></i>
                 </button>
@@ -124,17 +124,17 @@
             </div>
             
             <!-- Evaluations List -->
-            <div id="evaluations-list" class="flex-1 overflow-y-auto px-6 pb-4 space-y-3">
+            <div id="evaluations-list" class="flex-1 overflow-y-auto px-6 pb-4 space-y-3 min-h-0">
                 <!-- Evaluations will be rendered here -->
             </div>
             
             <!-- Calculation Panel -->
-            <div id="calculation-panel" class="px-6 pb-8">
+            <div id="calculation-panel" class="px-6 pb-24 flex-shrink-0">
                 <!-- Calculation results will be rendered here -->
             </div>
             
             <!-- Add Evaluation FAB -->
-            <button id="add-evaluation-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150">
+            <button id="add-evaluation-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150 z-40">
                 <i class="fas fa-plus text-2xl text-white"></i>
             </button>
         </div>

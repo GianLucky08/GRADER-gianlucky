@@ -5,6 +5,7 @@
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
+    box-sizing: border-box;
 }
 
 input {
@@ -43,16 +44,18 @@ input {
 
 /* Prevent bounce scroll on iOS */
 body {
-    position: static; /* Quitamos fixed */
-    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background-color: #000000;
-    overscroll-behavior-y: contain; /* Evita rebotes raros */
+    overscroll-behavior: none;
 }
 
-/* Subjects list with native scroll and FAB padding */
-#subjects-list {
-    flex: 1;
-    padding-bottom: 120px; /* Suficiente espacio para el FAB */
+/* Ensure list scrolls correctly and handles touch momentum */
+#subjects-list, #evaluations-list {
+    -webkit-overflow-scrolling: touch;
 }
 
 /* Glassmorphism effect */
