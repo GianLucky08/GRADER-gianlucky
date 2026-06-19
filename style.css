@@ -52,7 +52,6 @@ body {
 /* Subjects list with native scroll and FAB padding */
 #subjects-list {
     flex: 1;
-    height: auto;
     padding-bottom: 120px; /* Suficiente espacio para el FAB */
 }
 

@@ -45,7 +45,7 @@
     <link rel="stylesheet" href="/GRADER-gianlucky/style.css">
 </head>
 <body class="bg-ios-background text-ios-text overflow-hidden select-none">
-    <div id="app" class="min-h-[100dvh] w-screen flex flex-col bg-ios-background text-ios-text">
+    <div id="app" class="h-screen w-screen flex flex-col bg-ios-background text-ios-text">
         <!-- Setup Screen -->
         <div id="setup-screen" class="hidden flex-1 flex flex-col items-center justify-center p-6">
             <div class="w-full max-w-sm">
@@ -81,7 +81,7 @@
         </div>
         
         <!-- Dashboard -->
-        <div id="dashboard" class="hidden flex-1 flex flex-col">
+        <div id="dashboard" class="hidden flex-1 flex flex-col relative">
             <!-- Header -->
             <div class="px-6 pt-[env(safe-area-inset-top,3rem)] pb-4">
                 <div class="flex items-center justify-between">
@@ -111,7 +111,7 @@
         </div>
         
         <!-- Subject Detail -->
-        <div id="subject-detail" class="hidden flex-1 flex flex-col">
+        <div id="subject-detail" class="hidden flex-1 flex flex-col relative">
             <!-- Header -->
             <div class="px-6 pt-12 pb-4 flex items-center">
                 <button id="back-btn" class="w-10 h-10 bg-ios-card rounded-full flex items-center justify-center active:scale-95 transition-transform duration-150 mr-4">
