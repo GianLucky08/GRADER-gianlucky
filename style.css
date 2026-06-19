@@ -42,17 +42,6 @@ input {
     }
 }
 
-/* Prevent bounce scroll on iOS */
-body {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: #000000;
-    overscroll-behavior: none;
-}
-
 /* Ensure list scrolls correctly and handles touch momentum */
 #subjects-list, #evaluations-list {
     -webkit-overflow-scrolling: touch;
