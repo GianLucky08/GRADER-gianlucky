@@ -1,88 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Grader">
-    <meta name="theme-color" content="#000000">
-    <meta name="description" content="Calculadora de notas para estudiantes universitarios">
-    
-    <link rel="manifest" href="/GRADER-gianlucky/manifest.json">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/180/000000/FFFFFF?text=Grader">
-    <link rel="icon" type="image/png" href="https://via.placeholder.com/192/000000/FFFFFF?text=Grader">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        ios: {
-                            background: '#000000',
-                            card: 'rgba(28, 28, 30, 0.8)',
-                            cardLight: 'rgba(44, 44, 46, 0.8)',
-                            text: '#FFFFFF',
-                            textSecondary: '#8E8E93',
-                            accent: '#0A84FF',
-                            success: '#30D158',
-                            warning: '#FFD60A',
-                            danger: '#FF453A',
-                            separator: 'rgba(84, 84, 88, 0.65)'
-                        }
-                    },
-                    backdropBlur: {
-                        xs: '2px',
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <link rel="stylesheet" href="/GRADER-gianlucky/style.css">
-</head>
-<body class="bg-ios-background text-ios-text overflow-hidden select-none fixed inset-0">
-    <div id="app" class="absolute inset-0 flex flex-col bg-ios-background text-ios-text">
-        <!-- Setup Screen -->
-        <div id="setup-screen" class="hidden flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto">
-            <div class="w-full max-w-sm">
-                <div class="text-center mb-8">
-                    <div class="w-20 h-20 bg-ios-accent rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg">
-                        <i class="fas fa-graduation-cap text-4xl text-white"></i>
-                    </div>
-                    <h1 class="text-3xl font-bold mb-2">Grader</h1>
-                    <p class="text-ios-textSecondary">Configura tu escala de notas</p>
-                </div>
-                
-                <div class="space-y-4">
-                    <div class="bg-ios-card backdrop-blur-xl rounded-2xl p-4 border border-ios-separator">
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Mínima Posible</label>
-                        <input type="number" id="min-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Ej: 1" value="1">
-                    </div>
-                    
-                    <div class="bg-ios-card backdrop-blur-xl rounded-2xl p-4 border border-ios-separator">
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Máxima Posible</label>
-                        <input type="number" id="max-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Ej: 20" value="20">
-                    </div>
-                    
-                    <div class="bg-ios-card backdrop-blur-xl rounded-2xl p-4 border border-ios-separator">
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Mínima para Aprobar</label>
-                        <input type="number" id="passing-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Ej: 10" value="10">
-                    </div>
-                    
-                    <button id="save-setup" class="w-full bg-ios-accent text-white font-semibold py-4 rounded-2xl mt-6 active:scale-95 transition-transform duration-150 shadow-lg">
-                        Comenzar
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Dashboard -->
-        <div id="dashboard" class="hidden flex-1 flex flex-col relative overflow-hidden">
-            <!-- Header (fijado sin comprimirse) -->
+<div id="dashboard" class="hidden flex-1 flex flex-col relative overflow-hidden">
             <div class="flex-none px-6 pt-[env(safe-area-inset-top,3rem)] pb-4">
                 <div class="flex items-center justify-between">
                     <div>
@@ -96,23 +12,17 @@
                 </div>
             </div>
             
-            <!-- Global Stats (fijado sin comprimirse) -->
             <div id="global-stats" class="flex-none px-6 mb-4"></div>
             
-            <!-- Subjects List (área con scroll activo) -->
-            <div id="subjects-list" class="flex-1 overflow-y-auto px-6 pb-32 space-y-3">
-                <!-- Subjects will be rendered here -->
-            </div>
+            <div id="subjects-list" class="flex-1 overflow-y-auto px-6 pb-24 space-y-3">
+                </div>
             
-            <!-- FAB -->
             <button id="add-subject-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150 z-50">
                 <i class="fas fa-plus text-2xl text-white"></i>
             </button>
         </div>
         
-        <!-- Subject Detail -->
         <div id="subject-detail" class="hidden flex-1 flex flex-col relative overflow-hidden">
-            <!-- Header (fijado) -->
             <div class="flex-none px-6 pt-12 pb-4 flex items-center">
                 <button id="back-btn" class="w-10 h-10 bg-ios-card rounded-full flex items-center justify-center active:scale-95 transition-transform duration-150 mr-4">
                     <i class="fas fa-chevron-left text-white"></i>
@@ -123,76 +33,15 @@
                 </button>
             </div>
             
-            <!-- Evaluations List (área con scroll activo) -->
-            <div id="evaluations-list" class="flex-1 overflow-y-auto px-6 pb-4 space-y-3">
-                <!-- Evaluations will be rendered here -->
+            <div class="flex-1 overflow-y-auto flex flex-col">
+                <div id="evaluations-list" class="flex-none px-6 space-y-3">
+                    </div>
+                
+                <div id="calculation-panel" class="flex-none px-6 pt-6 pb-24 mt-auto">
+                    </div>
             </div>
             
-            <!-- Calculation Panel (fijado inferior) -->
-            <div id="calculation-panel" class="flex-none px-6 pb-24">
-                <!-- Calculation results will be rendered here -->
-            </div>
-            
-            <!-- Add Evaluation FAB -->
             <button id="add-evaluation-btn" class="absolute bottom-6 right-6 w-14 h-14 bg-ios-accent rounded-full flex items-center justify-center shadow-2xl active:scale-90 transition-transform duration-150 z-50">
                 <i class="fas fa-plus text-2xl text-white"></i>
             </button>
         </div>
-        
-        <!-- Modals -->
-        <div id="modal-overlay" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center">
-            <!-- Add Subject Modal -->
-            <div id="add-subject-modal" class="hidden w-full max-w-sm bg-ios-card backdrop-blur-xl rounded-t-3xl p-6 border-t border-ios-separator transform transition-transform duration-300">
-                <div class="w-12 h-1 bg-ios-separator rounded-full mx-auto mb-6"></div>
-                <h2 class="text-xl font-bold mb-4">Nueva Materia</h2>
-                <input type="text" id="subject-name-input" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white placeholder-ios-textSecondary focus:outline-none focus:ring-2 focus:ring-ios-accent mb-4" placeholder="Nombre de la materia">
-                <div class="flex gap-3">
-                    <button id="cancel-subject-btn" class="flex-1 bg-ios-cardLight py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Cancelar</button>
-                    <button id="confirm-subject-btn" class="flex-1 bg-ios-accent py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Agregar</button>
-                </div>
-            </div>
-            
-            <!-- Add Evaluation Modal -->
-            <div id="add-evaluation-modal" class="hidden w-full max-w-sm bg-ios-card backdrop-blur-xl rounded-t-3xl p-6 border-t border-ios-separator transform transition-transform duration-300">
-                <div class="w-12 h-1 bg-ios-separator rounded-full mx-auto mb-6"></div>
-                <h2 class="text-xl font-bold mb-4">Nueva Evaluación</h2>
-                <div class="space-y-4">
-                    <input type="text" id="eval-name-input" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white placeholder-ios-textSecondary focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Nombre (ej: Parcial 1)">
-                    <input type="number" id="eval-grade-input" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white placeholder-ios-textSecondary focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Nota obtenida" step="0.1">
-                    <input type="number" id="eval-percentage-input" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white placeholder-ios-textSecondary focus:outline-none focus:ring-2 focus:ring-ios-accent" placeholder="Porcentaje (%)" step="1" min="1" max="100">
-                </div>
-                <div class="flex gap-3 mt-6">
-                    <button id="cancel-eval-btn" class="flex-1 bg-ios-cardLight py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Cancelar</button>
-                    <button id="confirm-eval-btn" class="flex-1 bg-ios-accent py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Agregar</button>
-                </div>
-            </div>
-            
-            <!-- Settings Modal -->
-            <div id="settings-modal" class="hidden w-full max-w-sm bg-ios-card backdrop-blur-xl rounded-t-3xl p-6 border-t border-ios-separator transform transition-transform duration-300">
-                <div class="w-12 h-1 bg-ios-separator rounded-full mx-auto mb-6"></div>
-                <h2 class="text-xl font-bold mb-4">Configuración</h2>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Mínima Posible</label>
-                        <input type="number" id="settings-min-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-ios-accent">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Máxima Posible</label>
-                        <input type="number" id="settings-max-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-ios-accent">
-                    </div>
-                    <div>
-                        <label class="block text-sm text-ios-textSecondary mb-2">Nota Mínima para Aprobar</label>
-                        <input type="number" id="settings-passing-grade" class="w-full bg-ios-cardLight rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-ios-accent">
-                    </div>
-                </div>
-                <div class="flex gap-3 mt-6">
-                    <button id="cancel-settings-btn" class="flex-1 bg-ios-cardLight py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Cancelar</button>
-                    <button id="confirm-settings-btn" class="flex-1 bg-ios-accent py-3 rounded-xl font-semibold active:scale-95 transition-transform duration-150">Guardar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <script src="/GRADER-gianlucky/app.js"></script>
-</body>
-</html>

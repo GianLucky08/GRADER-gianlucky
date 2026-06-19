@@ -1,7 +1,7 @@
 // Service Worker for Grader PWA
 // Caches all assets for offline functionality
 
-const CACHE_NAME = 'grader-v9';
+const CACHE_NAME = 'grader-v10';
 const ASSETS_TO_CACHE = [
     '/GRADER-gianlucky/',
     '/GRADER-gianlucky/index.html',
